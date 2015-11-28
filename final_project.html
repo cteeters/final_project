@@ -1,0 +1,76 @@
+<head>
+  <title>Grocery List</title>
+</head>
+
+<body>
+
+<div>
+  <ul class="menu">
+    <li class="menuItem">{{> loginButtons}}</li>
+    <li class="menuItem"><a href="final_project.html" class="menuLink">Home</a> </li>
+    <li class="menuItem"><a href="about.html" class="menuLink">About</a></li>
+  </ul>
+</div>
+
+{{#if currentUser}}
+<div class="container">
+  <header>
+    <h1 id="title">Grocery List</h1>
+
+    <form class="new-item">
+      <input type="text" name="text" placeholder="Type to add new items" />
+    </form>
+  </header>
+
+  <ul>
+    {{#each items}}
+      {{> item}}
+    {{/each}}
+  </ul>
+</div>
+<div class="container">
+  <header>
+    <h1>Items Found</h1>
+  </header>
+
+  <ul>
+    {{#each found_items}}
+      {{> found}}
+    {{/each}}
+  </ul>
+</div>
+<div class="container">
+  <header>
+    <h3>
+      Tax: ${{calcTax}}
+    </h3>
+    <h2>
+      Total: ${{priceSum}}
+    </h2>
+    <button class="save">Save list</button>
+  </header>
+</div>
+{{else}}
+  <h3>Please log in first.</h3>
+{{/if}}
+</body>
+
+
+<template name="item">
+  <li>
+    <button class="found">Got it!</button>
+
+    <input type="number" name="price" placeholder="Sale Price" />
+
+    <span class="text">{{text}}</span>
+  </li>
+</template>
+
+<template name="found">
+  <li>
+    <button class="remove">&times;</button>
+    <span class="text">{{text}}</span>
+    <span class="price">{{price}}</span>
+  </li>
+</template>
+

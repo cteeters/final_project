@@ -1,0 +1,104 @@
+Items = new Mongo.Collection("items");
+Found_items = new Mongo.Collection("found_items");
+
+if (Meteor.isClient) {
+  // This code only runs on the client
+  Template.body.helpers({
+    items: function () {
+      return Items.find({});
+    },
+    found_items: function () {
+      return Found_items.find({});
+    },
+    priceSum: function(){
+
+      var userItems = Found_items.find({
+        userId: this._id
+      }).fetch();
+
+      var prices = _.pluck(userItems, "price");
+
+      var totalTaxed = _.reduce(prices, function(sum, price){
+        var total = sum + parseFloat(price);
+        return total + (total * 0.04712);
+      }, 0);
+
+      return totalTaxed.toFixed(2);
+    },
+    calcTax: function () {
+      var userItems = Found_items.find({
+        userId: this._id
+      }).fetch();
+
+      var prices = _.pluck(userItems, "price");
+
+      var tax =  _.reduce(prices, function(sum, price){
+        return (sum + parseFloat(price)) * 0.04712;
+      }, 0);
+
+      return tax.toFixed(2);
+    }
+  });
+
+
+  Template.body.events({
+    "submit .new-item": function (event) {
+      event.preventDefault();
+
+      var text = event.target.text.value;
+
+      Items.insert({
+        text: text,
+        createdAt: new Date(),
+        owner: Meteor.userId(),
+        username: Meteor.user().username
+      });
+
+      event.target.text.value = "";
+    }
+  });
+
+  Template.body.events({
+    "click .save": function (event) {
+      event.preventDefault();
+
+      var list = Found_items.find({
+        userId: this._id
+      }).fetch();
+
+      Saved_lists.insert(list);
+    }
+  })
+
+  Template.item.events({
+    "click .found": function (event, template) {
+
+      event.preventDefault();
+      var price = template.find('[name="price"]').value;
+      var text = template.find('.text').textContent;
+
+      Items.remove(this._id);
+      Found_items.insert({
+        text: text,
+        price: price
+      });
+
+    }
+  });
+
+  Template.body.events({
+    "click .remove": function(event) {
+      event.preventDefault();
+
+      Found_items.remove(this._id);
+    }
+  });
+
+  Accounts.ui.config({
+    passwordSignupFields: "USERNAME_ONLY"
+  });
+
+  AccountsGuest.enabled = false;
+
+  Accounts.removeOldGuests();
+}
