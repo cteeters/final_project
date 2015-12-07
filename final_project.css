@@ -17,9 +17,9 @@ body {
   max-width: 600px;
   margin: 0 auto;
   background: white;
-  z-index: -1;
+
   position: relative;
-  top: 30px;
+  top: 50px;
 }
 
 header {
@@ -106,11 +106,10 @@ li .text {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  overflow: hidden;
   position: fixed;
   z-index: 1;
   width: 100%;
-  background-color: #315481;
+  background-color: #00FFFF;
 }
 
 .menuItem {
@@ -125,8 +124,5 @@ li .text {
 
 .menuLink {
   display: block;
-  width: 60px;
-}
-
-#menu {
+  width: 80px;
 }

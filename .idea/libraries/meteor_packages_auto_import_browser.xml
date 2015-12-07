@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="meteor-packages-auto-import-browser" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/npm-bcrypt/0.7.8_2/web.browser/packages/npm-bcrypt.js" />
+        <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/artwells_accounts-guest/0.1.13/web.browser/packages/artwells_accounts-guest.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/npm-bcrypt/0.7.8_2/web.browser/packages/npm-bcrypt.js" />
+      <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/artwells_accounts-guest/0.1.13/web.browser/packages/artwells_accounts-guest.js" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

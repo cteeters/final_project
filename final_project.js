@@ -1,9 +1,13 @@
 Items = new Mongo.Collection("items");
 Found_items = new Mongo.Collection("found_items");
 
+Router.configure({layoutTemplate: 'layout'});
+Router.route('home', {path: '/'}); // Add this route
+Router.route('about', {path: '/about'});
+
 if (Meteor.isClient) {
   // This code only runs on the client
-  Template.body.helpers({
+  Template.home.helpers({
     items: function () {
       return Items.find({});
     },
@@ -41,7 +45,7 @@ if (Meteor.isClient) {
   });
 
 
-  Template.body.events({
+  Template.home.events({
     "submit .new-item": function (event) {
       event.preventDefault();
 
@@ -58,18 +62,6 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.body.events({
-    "click .save": function (event) {
-      event.preventDefault();
-
-      var list = Found_items.find({
-        userId: this._id
-      }).fetch();
-
-      Saved_lists.insert(list);
-    }
-  })
-
   Template.item.events({
     "click .found": function (event, template) {
 
@@ -80,13 +72,17 @@ if (Meteor.isClient) {
       Items.remove(this._id);
       Found_items.insert({
         text: text,
-        price: price
+        price: price,
+        createdAt: new Date(),
+        owner: Meteor.userId(),
+        username: Meteor.user().username
       });
 
     }
   });
 
-  Template.body.events({
+
+  Template.found.events({
     "click .remove": function(event) {
       event.preventDefault();
 
@@ -97,8 +93,4 @@ if (Meteor.isClient) {
   Accounts.ui.config({
     passwordSignupFields: "USERNAME_ONLY"
   });
-
-  AccountsGuest.enabled = false;
-
-  Accounts.removeOldGuests();
 }
